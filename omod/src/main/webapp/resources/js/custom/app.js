@@ -1,7 +1,7 @@
 var muzimaCoreModule = angular.module('muzimaCoreModule', ['ui.bootstrap', 'ngRoute', 'ngSanitize', 'filters', 'muzimafilters']);
 
 muzimaCoreModule.
-    config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
+config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file):/);
         $routeProvider.
             when('/source/:uuid', {controller: SourceCtrl, templateUrl: '../../moduleResources/muzimacore/partials/source.html'}).
@@ -60,6 +60,9 @@ muzimaCoreModule.factory('$data', function ($http) {
     var getErrorPatient = function (id) {
         return $http.get("merge.json?patient_id=" + id);
     };
+    var getPatientByUuid = function (uuid) {
+        return $http.get("../ws/rest/v1/patient/" + uuid);
+    };
 
     var getSources = function (search, pageNumber, pageSize) {
         if (search === undefined) {
@@ -98,6 +101,7 @@ muzimaCoreModule.factory('$data', function ($http) {
         getErrors: getErrors,
         getError: getError,
         getErrorPatient: getErrorPatient,
+        getPatientByUuid: getPatientByUuid,
         reQueueErrors: reQueueErrors,
 
         getSources: getSources,
